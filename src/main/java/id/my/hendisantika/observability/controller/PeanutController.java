@@ -1,5 +1,6 @@
 package id.my.hendisantika.observability.controller;
 
+import id.my.hendisantika.observability.entity.Peanuts;
 import id.my.hendisantika.observability.service.PeanutsService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -99,6 +101,12 @@ public class PeanutController {
     @GetMapping("/error_test")
     public String errorTest() throws Exception {
         throw new Exception("Error test");
+    }
+
+    @GetMapping("/peanuts/{id}")
+    public Peanuts getPeanutsById(@PathVariable Long id) {
+        log.info("Get Peanuts Character by id");
+        return peanutsService.getPeanutsById(id);
     }
 
 }
