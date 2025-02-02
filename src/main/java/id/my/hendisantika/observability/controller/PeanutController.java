@@ -1,6 +1,7 @@
 package id.my.hendisantika.observability.controller;
 
 import id.my.hendisantika.observability.service.PeanutsService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.EnableCaching;
@@ -10,6 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by IntelliJ IDEA.
@@ -64,4 +69,13 @@ public class PeanutController {
         return "random_sleep";
     }
 
+    @GetMapping("/random_status")
+    public String randomStatus(HttpServletResponse response) throws InterruptedException {
+        List<Integer> givenList = Arrays.asList(200, 200, 300, 400, 500);
+        Random rand = new Random();
+        int randomElement = givenList.get(rand.nextInt(givenList.size()));
+        response.setStatus(randomElement);
+        log.info("random_status");
+        return "random_status";
+    }
 }
