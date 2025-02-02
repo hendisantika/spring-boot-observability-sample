@@ -4,6 +4,7 @@ import id.my.hendisantika.observability.service.PeanutsService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.fluent.Request;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -77,5 +79,20 @@ public class PeanutController {
         response.setStatus(randomElement);
         log.info("random_status");
         return "random_status";
+    }
+
+    @GetMapping("/chain")
+    public String chain() throws InterruptedException, IOException {
+        String TARGET_ONE_HOST = System.getenv().getOrDefault("TARGET_ONE_HOST", "localhost");
+        String TARGET_TWO_HOST = System.getenv().getOrDefault("TARGET_TWO_HOST", "localhost");
+        log.debug("chain is starting");
+        Request.Get("http://localhost:8080/")
+                .execute().returnContent();
+        Request.Get(String.format("http://%s:8080/io_task", TARGET_ONE_HOST))
+                .execute().returnContent();
+        Request.Get(String.format("http://%s:8080/cpu_task", TARGET_TWO_HOST))
+                .execute().returnContent();
+        log.debug("chain is finished");
+        return "chain";
     }
 }
