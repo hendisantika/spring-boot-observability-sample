@@ -57,7 +57,7 @@ services:
 
   app-a:
     # build: ./app/
-    image: docker.io/hendisantika/spring-boot-observability/app:latest
+    image: docker.io/hendisantika/observability/app:latest
     environment:
       - TARGET_ONE_HOST=app-b
       - TARGET_TWO_HOST=app-c
@@ -72,7 +72,7 @@ services:
 
   app-b:
     # build: ./app/
-    image: docker.io/blueswen/spring-boot-observability/app:latest
+    image: docker.io/blueswen/observability/app:latest
     environment:
       - TARGET_ONE_HOST=app-b
       - TARGET_TWO_HOST=app-c
@@ -87,7 +87,7 @@ services:
 
   app-c:
     # build: ./app/
-    image: docker.io/hendisantika/spring-boot-observability/app:latest
+    image: docker.io/hendisantika/observability/app:latest
     environment:
       - TARGET_ONE_HOST=app-b
       - TARGET_TWO_HOST=app-c
