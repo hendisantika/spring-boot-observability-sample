@@ -57,7 +57,8 @@ jobs:
           file: Dockerfile
           push: true
           labels: ${{ steps.meta.outputs.labels }}
-          tags: hendisantika/observability:${{ github.run_number }}
+          #          tags: hendisantika/observability:${{ github.run_number }}
+          tags: hendisantika/observability:latest
           build-args: |
             GIT_VERSION_TAG=${{ env.RELEASE_VERSION }}
             GIT_COMMIT_MESSAGE=${{ github.event.head_commit.message }}
