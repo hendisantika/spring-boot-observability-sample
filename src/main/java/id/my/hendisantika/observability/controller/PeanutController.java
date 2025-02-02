@@ -56,4 +56,12 @@ public class PeanutController {
         log.info("cpu_task");
         return "cpu_task";
     }
+
+    @GetMapping("/random_sleep")
+    public String randomSleep() throws InterruptedException {
+        Thread.sleep((int) (Math.random() / 5 * 10000));
+        log.info("random_sleep");
+        return "random_sleep";
+    }
+
 }
