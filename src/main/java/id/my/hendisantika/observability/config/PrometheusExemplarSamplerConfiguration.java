@@ -1,9 +1,7 @@
 package id.my.hendisantika.observability.config;
 
-import io.prometheus.client.exemplars.tracer.otel_agent.OpenTelemetryAgentSpanContextSupplier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
+//import io.prometheus.client.exemplars.tracer.otel_agent.OpenTelemetryAgentSpanContextSupplier;
+//import io.prometheus.client.exemplars.tracer.otel_agent.OpenTelemetryAgentSpanContextSupplier;
 /**
  * Created by IntelliJ IDEA.
  * Project : spring-boot-observability-sample
@@ -15,10 +13,10 @@ import org.springframework.context.annotation.Configuration;
  * Time: 13.43
  * To change this template use File | Settings | File Templates.
  */
-@Configuration
-public class PrometheusExemplarSamplerConfiguration {
-    @Bean
-    public OpenTelemetryAgentSpanContextSupplier openTelemetryAgentSpanContextSupplier() {
-        return new OpenTelemetryAgentSpanContextSupplier();
-    }
-}
+//@Configuration
+//public class PrometheusExemplarSamplerConfiguration {
+//    @Bean
+//    public OpenTelemetryAgentSpanContextSupplier openTelemetryAgentSpanContextSupplier() {
+//        return new OpenTelemetryAgentSpanContextSupplier();
+//    }
+//}
