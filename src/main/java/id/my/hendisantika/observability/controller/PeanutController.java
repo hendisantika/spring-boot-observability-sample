@@ -40,4 +40,12 @@ public class PeanutController {
         log.error("Oops! We have an Error. OK");
         return String.format("Hello %s!!", name);
     }
+
+    @GetMapping("/io_task")
+    public String ioTask() throws InterruptedException {
+        Thread.sleep(1000);
+        log.info("io_task");
+        return "io_task";
+    }
+
 }
