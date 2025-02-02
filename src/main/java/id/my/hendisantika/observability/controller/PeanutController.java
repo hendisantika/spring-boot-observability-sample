@@ -48,4 +48,12 @@ public class PeanutController {
         return "io_task";
     }
 
+    @GetMapping("/cpu_task")
+    public String cpuTask() {
+        for (int i = 0; i < 100; i++) {
+            int tmp = i * i * i;
+        }
+        log.info("cpu_task");
+        return "cpu_task";
+    }
 }
