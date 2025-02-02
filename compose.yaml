@@ -72,7 +72,7 @@ services:
 
   app-b:
     # build: ./app/
-    image: docker.io/blueswen/observability:latest
+    image: docker.io/hendisantika/observability:latest
     environment:
       - TARGET_ONE_HOST=app-b
       - TARGET_TWO_HOST=app-c
