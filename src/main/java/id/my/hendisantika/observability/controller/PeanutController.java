@@ -95,4 +95,10 @@ public class PeanutController {
         log.debug("chain is finished");
         return "chain";
     }
+
+    @GetMapping("/error_test")
+    public String errorTest() throws Exception {
+        throw new Exception("Error test");
+    }
+
 }
