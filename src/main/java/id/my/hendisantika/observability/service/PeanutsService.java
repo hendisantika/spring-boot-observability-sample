@@ -3,6 +3,7 @@ package id.my.hendisantika.observability.service;
 import id.my.hendisantika.observability.entity.Peanuts;
 import id.my.hendisantika.observability.repository.PeanutsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,9 @@ public class PeanutsService {
         return peanutsRepository.findById(id).orElse(null);
     }
 
+    @CachePut(value = "peanuts", key = "#peanuts.id")
+    public Peanuts savePeanuts(Peanuts peanuts) {
+        return peanutsRepository.save(peanuts);
+    }
 
 }
