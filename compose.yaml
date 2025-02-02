@@ -56,8 +56,8 @@ services:
   # Applications
 
   app-a:
-    # build: ./app/
-    image: docker.io/hendisantika/observability:latest
+    build: .
+    #    image: docker.io/hendisantika/observability:latest
     environment:
       - TARGET_ONE_HOST=app-b
       - TARGET_TWO_HOST=app-c
@@ -69,10 +69,12 @@ services:
     ports:
       - "8080:8080"
     logging: *default-logging
+    networks:
+      - custom_network
 
   app-b:
-    # build: ./app/
-    image: docker.io/hendisantika/observability:latest
+    build: .
+    #    image: docker.io/hendisantika/observability:latest
     environment:
       - TARGET_ONE_HOST=app-b
       - TARGET_TWO_HOST=app-c
@@ -84,10 +86,12 @@ services:
     ports:
       - "8081:8080"
     logging: *default-logging
+    networks:
+      - custom_network
 
   app-c:
-    # build: ./app/
-    image: docker.io/hendisantika/observability:latest
+    build: .
+    #    image: docker.io/hendisantika/observability:latest
     environment:
       - TARGET_ONE_HOST=app-b
       - TARGET_TWO_HOST=app-c
@@ -99,6 +103,8 @@ services:
     ports:
       - "8082:8080"
     logging: *default-logging
+    networks:
+      - custom_network
 
   postgres:
     image: postgres:17-alpine3.21
@@ -115,3 +121,10 @@ services:
     ports:
       - "6379:6379"
     logging: *default-logging
+
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
