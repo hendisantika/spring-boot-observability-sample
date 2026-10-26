@@ -107,7 +107,7 @@ services:
       - custom_network
 
   postgres:
-    image: postgres:17-alpine3.21
+    image: postgres:18-alpine3.21
     environment:
       - POSTGRES_DB=peanuts
       - POSTGRES_USER=yu71
