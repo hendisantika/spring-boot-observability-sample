@@ -31,7 +31,7 @@ services:
     logging: *default-logging
 
   tempo:
-    image: grafana/tempo:2.4.1
+    image: grafana/tempo:3.1.1
     command: [ "--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false" ]
     ports:
       - "14250:14250"
