@@ -1,14 +1,12 @@
 package id.my.hendisantika.observability;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,10 +17,7 @@ class SpringBootObservabilitySampleApplicationTests {
 
     @Container
     @ServiceConnection
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine3.21");
-
-    @Autowired
-    TestRestTemplate restTemplate;
+    static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:17-alpine3.21");
 
     @Test
     void connectionEstablished() {
