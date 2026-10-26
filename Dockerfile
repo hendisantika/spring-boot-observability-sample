@@ -4,7 +4,7 @@ RUN curl --silent --fail -L "https://github.com/open-telemetry/opentelemetry-jav
     -o "$HOME/opentelemetry-javaagent.jar"
 
 #FROM maven:3.10.0-liberica-25 AS build
-FROM maven:3.10.0-eclipse-temurin-25 AS build
+FROM maven:3-eclipse-temurin-27 AS build
 ADD . /build
 RUN cd /build && mvn clean package --quiet -DskipTests
 
