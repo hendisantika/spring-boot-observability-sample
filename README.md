@@ -1,5 +1,10 @@
 # Spring Boot with Observability
 
+[![Java CI with Maven](https://github.com/hendisantika/spring-boot-observability-sample/actions/workflows/maven.yml/badge.svg)](https://github.com/hendisantika/spring-boot-observability-sample/actions/workflows/maven.yml)
+![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1-6DB33F?logo=springboot)
+![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot)
+
 Observe the Spring Boot application with three pillars of observability
 on [Grafana](https://github.com/grafana/grafana):
 
@@ -20,6 +25,8 @@ by [Cloud Observability with Grafana and Spring Boot](https://github.com/qaware/
 
 - [Spring Boot with Observability](#spring-boot-with-observability)
     - [Table of contents](#table-of-contents)
+    - [Tech Stack](#tech-stack)
+    - [Build and Test Locally](#build-and-test-locally)
     - [Quick Start](#quick-start)
     - [Explore with Grafana](#explore-with-grafana)
         - [Metrics to Traces](#metrics-to-traces)
@@ -41,7 +48,36 @@ by [Cloud Observability with Grafana and Spring Boot](https://github.com/qaware/
             - [Loki Docker Driver](#loki-docker-driver)
             - [Grafana Data Source](#grafana-data-source-2)
         - [Grafana](#grafana)
+    - [CI/CD](#cicd)
+    - [Dependency Updates (Dependabot)](#dependency-updates-dependabot)
     - [Reference](#reference)
+
+## Tech Stack
+
+| Component                         | Version                                                    |
+|-----------------------------------|------------------------------------------------------------|
+| Java (JDK)                        | **25** (Eclipse Temurin in CI, BellSoft Liberica runtime)  |
+| Spring Boot                       | 4.1.x                                                      |
+| Maven                             | 3.9+ (wrapper included) / 3.10.0 in the Docker build image |
+| OpenTelemetry Java agent          | 2.33.0                                                     |
+| springdoc-openapi (Swagger UI)    | 3.2.0                                                      |
+| Testcontainers                    | 2.x (PostgreSQL)                                           |
+| PostgreSQL / Redis                | via `compose.yaml`                                         |
+
+## Build and Test Locally
+
+Prerequisites: **JDK 25** and Docker (the integration test starts PostgreSQL with Testcontainers).
+
+```bash
+# verify the JDK
+java -version   # openjdk version "25..."
+
+# build and run the tests
+./mvnw clean package
+
+# build the container image (JDK 25 + OpenTelemetry agent)
+docker build -t hendisantika/observability:local .
+```
 
 ## Quick Start
 
@@ -609,6 +645,35 @@ grafana:
     - ./etc/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml # dashboard setting
     - ./etc/dashboards:/etc/grafana/dashboards # dashboard json files directory
 ```
+
+## CI/CD
+
+The [Java CI with Maven](.github/workflows/maven.yml) workflow runs on every push and pull request to `main` (and can be
+triggered manually):
+
+1. **build-app** – sets up Temurin **JDK 25** with Maven caching and runs `mvn -B package` (including the
+   Testcontainers integration test). On pushes to `main` it also submits the Maven dependency graph to GitHub so
+   Dependabot alerts are accurate.
+2. **build-and-push** – on pushes to `main` only, builds the Docker image and pushes it to Docker Hub as
+   `hendisantika/observability:latest` and `hendisantika/observability:<run number>`. It requires the
+   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repository secrets.
+
+Pull requests (including Dependabot PRs) run the build and tests only, so they stay green without access to secrets.
+The workflow uses least-privilege `permissions` and cancels superseded runs via `concurrency`.
+
+## Dependency Updates (Dependabot)
+
+[Dependabot](.github/dependabot.yml) keeps the project up to date:
+
+| Ecosystem        | Schedule (Asia/Jakarta)  | Notes                                                                                                         |
+|------------------|--------------------------|---------------------------------------------------------------------------------------------------------------|
+| Maven            | daily, 05:00             | Grouped PRs for Spring Boot, OpenTelemetry, Micrometer, springdoc, Testcontainers and Apache HttpComponents |
+| GitHub Actions   | daily, 05:00             | Grouped `actions/*` and `docker/*` updates                                                                    |
+| Docker           | weekly, Monday 05:00     | `Dockerfile` base images; JDK images stay on the Java 25 LTS line                                             |
+| Docker Compose   | weekly, Monday 05:00     | Images of the observability stack in `compose.yaml`                                                           |
+
+PRs are labelled (`dependencies` plus `java`, `github_actions` or `docker`) and use Conventional Commit prefixes such
+as `build(deps)`, `ci(deps)` and `build(docker)`.
 
 ## Reference
 
