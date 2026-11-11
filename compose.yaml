@@ -117,7 +117,7 @@ services:
     logging: *default-logging
 
   redis:
-    image: redis:7.2.4
+    image: redis:8.10.2
     ports:
       - "6379:6379"
     logging: *default-logging
